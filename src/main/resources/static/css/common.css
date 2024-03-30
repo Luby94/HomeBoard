@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+    }
+	/* 위 : 초기화 코드 */
+main {
+	width: 80%;
+	margin: 0 auto;
+	}
+	/* html 에서 width 잡을 때, 기본 400px 일때 padding 을 10px을 주면 420px 으로 넓어짐 */
+	
+table, tr, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+ul, li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+a:hover {
+	text-decoration: underline;	
+}
+
+h2 {
+	margin: 15px 0;
+}
