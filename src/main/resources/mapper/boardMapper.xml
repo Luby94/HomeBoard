@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.mapper.BoardMapper">
+
+  <select id="getBoardList">
+  
+    SELECT     BNO
+             , MENU_ID
+             , TITLE
+             , CONTENT
+             , WRITER
+             , TO_CHAR( REGDATE, 'YYYY-MM-DD HH24:MM:SS' ) REGDATE
+             , HIT
+      FROM     BOARD
+     WHERE     MENU_ID = #{ menu_id }
+  
+  </select>
+  
+  <insert id="insertBoard">
+  
+    INSERT  INTO  BOARD (
+    	  BNO
+    	, MENU_ID
+        , TITLE
+        , CONTENT
+        , WRITER
+        , REGDATE
+        , HIT
+    )
+    VALUES (
+    	  ( SELECT NVL( MAX( BNO ), 0) + 1 FROM BOARD )
+    	, #{ menu_id }
+    	, #{ title }
+    	, #{ content }
+    	, #{ writer }
+    	, SYSDATE
+    	, 0
+    )
+      
+  </insert>
+  
+  <update id="incHit">
+  
+    UPDATE   BOARD
+       SET   HIT = HIT + 1
+     WHERE   BNO = #{ bno }
+  
+  </update>
+  
+  <select id="getBoard">
+  
+    SELECT     BNO
+             , MENU_ID
+             , TITLE
+             , CONTENT
+             , WRITER
+             , TO_CHAR( REGDATE, 'YYYY-MM-DD HH24:MM:SS' ) REGDATE
+             , HIT
+      FROM     BOARD
+     WHERE     BNO = #{ bno }
+  
+  </select>
+  
+  <delete id="deleteBoard">
+  
+    DELETE   FROM   BOARD
+     WHERE   BNO = #{ bno }
+  
+  </delete>
+
+</mapper>
