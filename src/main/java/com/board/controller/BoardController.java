@@ -127,7 +127,7 @@ public class BoardController {
 	public ModelAndView delete( BoardVo boardVo ) {		// bno 가지고 있는 애 : BoardVo
 		
 		// 게시글 삭제
-		boardMapper.deleteBoard( boardVo.getBno() );	// delete 함수는 id="deleteBoard" 인 SQL 문으로 boardVo 를 가지고 가서 삭제할 것이다
+		boardMapper.deleteBoard( boardVo );	// delete 함수는 id="deleteBoard" 인 SQL 문으로 boardVo 를 가지고 가서 삭제할 것이다
 		
 		String menu_id = boardVo.getMenu_id();
 		

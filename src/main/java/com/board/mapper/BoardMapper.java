@@ -18,6 +18,6 @@ public interface BoardMapper {
 
 	BoardVo getBoard(BoardVo boardVo);
 
-	void deleteBoard(int bno);
+	void deleteBoard(BoardVo boardVo);
 	
 }
