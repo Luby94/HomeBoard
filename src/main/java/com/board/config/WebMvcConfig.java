@@ -20,15 +20,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	private LoginCheckInterceptor loginCheckInterceptor;
 
 	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
+	public void addInterceptors(InterceptorRegistry registry) {		// registry : InterceptorRegistry 의 파라미터
 		
 		// WebMvcConfigurer.super.addInterceptors(registry);
 		
 		System.out.println("okokok");
 		registry.addInterceptor(loginCheckInterceptor)
-		        .addPathPatterns("/**")
-		        .addPathPatterns("/**/*")
-		        .excludePathPatterns("/log*", "/css/**", "/img/**", "/js/**", "/");
+		        .addPathPatterns("/**")		// http://localhost:9090/  →  모든 경로
+		        .addPathPatterns("/**/*")	// 모든 경로의 하위 경로
+		        .excludePathPatterns("/log*", "/css/**", "/img/**", "/js/**", "/");		// 예외 경로 : log 로 시작하는(ex. login) 파일은 반복에서 제외
 		
 	}
 	

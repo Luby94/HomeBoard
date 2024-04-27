@@ -27,6 +27,11 @@
 	<c:if test="${ sessionScope.login == null || login == '' }">
 	  <div><a href="/loginForm" class="btn btn-info btn-sm">로그인</a></div>
 	</c:if>
+	
+	<!-- sessionScope 변수에 login 변수 있음 -->
+	<!-- session 안에 있는 login 이 null 인 경우(= 로그인 안된 경우)는 /loginForm 으로 이동하는 로그인 a tag 가 보이고 -->
+	<!-- login 이 null 이 아닌 경우(= 로그인 된 경우)는 로그인 안보임 -->
+	
 	<div>
 	  ${ login.username } 님 환영합니다<br />
 	  당신의 가입일은 ${ login.indate } 입니다

@@ -43,6 +43,7 @@ public class HomeController {
 	
 	// login (userid=sky, passwd=1234)
 	@RequestMapping("/login")
+	//public ModelAndView login( @Param String userid, @Param String passwd, HttpServletRequest request ) {
 	public ModelAndView login( HttpServletRequest request ) {
 		
 		// a tag 로 오든, form tag 로 오든 request 로 받을 수 있음
@@ -50,6 +51,7 @@ public class HomeController {
 		String passwd = request.getParameter("passwd");
 		
 		// DB 에서 로그인 정보 가져올 것 (db 조작 = mapper 가 함)
+		// userMapper.login( userid, passwd );
 		UserVo userVo = userMapper.login( userid, passwd );	// TUSER 테이블을 조회하는 userMapper 에 login 함수를 줘서, 넘어온 userid, passwd 를 userVo 에 담음
 		MenuVo menuVo = menuMapper.getMenu("MENU01");
 		
@@ -59,9 +61,9 @@ public class HomeController {
 			HttpSession session = request.getSession();
 			session.setAttribute("login", userVo);
 			session.setAttribute("menuVo", menuVo);
-			session.setMaxInactiveInterval(30*60);	// 30분 동안 유지
+			session.setMaxInactiveInterval(30*60);	// 30분 동안 유지, 30분*60초
 			loc = "redirect:/";
-		} else {
+		} else {		// 아이디 비번 틀리면 다시 로그인 화면 → loginForm
 			loc = "redirect:/loginForm";
 		}
 		
