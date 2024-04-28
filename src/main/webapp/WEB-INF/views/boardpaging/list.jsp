@@ -70,7 +70,7 @@
 	    <tr>
 	      <td>${ boardVo.bno   }</td>
 	      <td>
-	       <a href="/BoardPaging/View?bno=${ boardVo.bno }">
+	       <a href="/BoardPaging/View?bno=${ boardVo.bno }&nowpage=${ nowpage }">
 	          ${ boardVo.title       }
 	       </a>
 	      </td>	      	      

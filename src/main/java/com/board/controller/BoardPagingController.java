@@ -1,11 +1,13 @@
 package com.board.controller;
 
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.board.domain.BoardPagingVo;
@@ -30,9 +32,9 @@ public class BoardPagingController {
 	@Autowired
 	private BoardPagingMapper boardPagingMapper;
 	
-	// 게시물 목록 조회 : /Board/List?menu_id=MENU01
+	// 게시물 목록 조회 : /BoardPaging/List?menu_id=MENU01&nowpage=1&title=&weiter=
 	@RequestMapping("/List")
-	public ModelAndView list( int nowpage, BoardPagingVo boardPagingVo) {	// @RequestParam(value="nowpage")
+	public ModelAndView list( @RequestParam(value="nowpage") int nowpage, BoardPagingVo boardPagingVo) {
 		
 		log.info( "boardPagingVo : {}", boardPagingVo );
 		
@@ -82,44 +84,44 @@ public class BoardPagingController {
 		
 	}
 	
-	// 게시물 등록 : /Board/WriteForm?menu_id=${ menu_id }
+	// 게시물 등록 : /BoardPaging/WriteForm?menu_id=${ menu_id }&nowpage=${ nowpage }
 	@RequestMapping("/WriteForm")
-	public ModelAndView writeForm( MenuVo menuVo ) {
+	public ModelAndView writeForm( String menu_id, @RequestParam(value="nowpage") int nowpage ) {		// 넘어온 menu_id(?menu_id=MENU01) 처리
 		
 		// 메뉴 목록 조회
 		List<MenuVo> menuList = menuMapper.getMenuList();
 		System.out.println( "========meniList" + menuList );
-		
-		// 넘어온 menu_id(?menu_id=MENU01) 처리
-		String menu_id = menuVo.getMenu_id();
-		
+				
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("menuList", menuList);		// "" : jsp 에서 items=${} 곧 model 이름, 뒤 : List<MenuVo> menuList 의 변수 이름
+		mv.addObject("nowpage", nowpage);
 		mv.addObject("menu_id", menu_id);
+		mv.addObject("menuList", menuList);		// "" : jsp 에서 items=${} 곧 model 이름, 뒤 : List<MenuVo> menuList 의 변수 이름
 		mv.setViewName("board/write");
 		return mv;
 		
 	}
 	
-	//  /Board/Write
+	//  /BoardPaging/Write
 	@RequestMapping("/Write")
-	public ModelAndView write( BoardVo boardVo ) {
+	public ModelAndView write( BoardPagingVo boardPagingVo, @RequestParam(value="nowpage") int nowpage ) {
 		
 		// 게시글 저장 -> mapper 에 insert
 		// 넘어온 값(Vo)에 담아서 Board 저장
-		boardPagingMapper.insertBoard( boardVo );
+		boardPagingMapper.insertBoard( boardPagingVo );
 		
-		String menu_id = boardVo.getMenu_id();
+		// String menu_id = boardVo.getMenu_id();
 		
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("redirect:/Board/List?menu_id=" + menu_id);
+		String fmt = "redirect:/BoardPaging/List?menu_id={0}&nowpage={1}";
+		String loc = MessageFormat.format(fmt, boardPagingVo.getMenu_id(), nowpage);
+		mv.setViewName( loc );
 		return mv;
 		
 	}
 	
-	// 게시글 읽기 : /Board/View?bno=1
+	// 게시글 읽기 : /Board/View?bno=1&nowpage=${ nowpage }
 	@RequestMapping("/View")
-	public ModelAndView view( BoardVo boardVo ) {
+	public ModelAndView view( BoardVo boardVo, @RequestParam(value="nowpage") int nowpage ) {
 		
 		// 메뉴목록 조회 필요
 		List<MenuVo> menuList = menuMapper.getMenuList();
@@ -144,7 +146,9 @@ public class BoardPagingController {
 		mv.addObject("menuList", menuList);
 		mv.addObject("vo", vo);		// 여기 vo 는 넘어온 vo(= boardVo) 랑 다르다, boardMapper.getBoard( boardVo ); 임
 									// view.jsp 에서 여기 vo 안에 있는 bno 를 꺼내 쓸 것
-		mv.setViewName("/board/view");		// view.jsp 갈때 출력 필요, model 에 담아서 -> 윗줄 필요
+		mv.addObject("nowpage", nowpage);
+		mv.addObject("menu_id", boardVo.getMenu_id());
+		mv.setViewName("/boardpaging/view");		// view.jsp 갈때 출력 필요, model 에 담아서 -> 윗줄 필요
 		
 		return mv;
 		
@@ -152,16 +156,21 @@ public class BoardPagingController {
 	
 	// 삭제 : /Board/Delete?bno=3&menu_id=MENU01
 	@RequestMapping("/Delete")
-	public ModelAndView delete( BoardVo boardVo ) {		// bno 가지고 있는 애 : BoardVo
+	public ModelAndView delete( BoardPagingVo boardPagingVo, @RequestParam(value="nowpage") int nowpage ) {		// bno 가지고 있는 애 : BoardVo
 		
 		// 게시글 삭제
-		boardPagingMapper.deleteBoard( boardVo );	// delete 함수는 id="deleteBoard" 인 SQL 문으로 boardVo 를 가지고 가서 삭제할 것이다
+		boardPagingMapper.deleteBoard( boardPagingVo );	// delete 함수는 id="deleteBoard" 인 SQL 문으로 boardVo 를 가지고 가서 삭제할 것이다
 		
-		String menu_id = boardVo.getMenu_id();
+		//String menu_id = boardPagingVo.getMenu_id();
+		//System.out.println( "==========================menu_id: " + menu_id );
 		
 		// 다시 조회
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("redirect:/Board/List?menu_id=" + menu_id);
+		//mv.addObject("menu_id", menu_id);
+		//mv.addObject("nowpage", nowpage);
+		String fmt = "redirect:/BoardPaging/List?menu_id={0}&nowpage={1}";
+		String loc = MessageFormat.format(fmt, boardPagingVo.getMenu_id(), nowpage);
+		mv.setViewName( loc );
 		
 		return mv;
 		
