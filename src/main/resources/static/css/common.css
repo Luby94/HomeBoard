@@ -4,14 +4,13 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-    }
-	/* 위 : 초기화 코드 */
+}
+/* 위 : 초기화 코드 */
 main {
 	width: 80%;
 	margin: 0 auto;
-	}
-	/* html 에서 width 잡을 때, 기본 400px 일때 padding 을 10px을 주면 420px 으로 넓어짐 */
-	
+}
+/* html 에서 width 잡을 때, 기본 400px 일때 padding 을 10px을 주면 420px 으로 넓어짐 */
 table, tr, td {
 	border: 1px solid black;
 	border-collapse: collapse;
@@ -25,8 +24,9 @@ a {
 	text-decoration: none;
 	color: black;
 }
+
 a:hover {
-	text-decoration: underline;	
+	text-decoration: underline;
 }
 
 h2 {
@@ -51,31 +51,39 @@ h2 {
 	color : black;
 }
 */
-
 #menus {
-	width : 800px;
-	margin : 30px 0;
-
-    td { 
-	text-align : center;
-	padding : 15px 10px;
-	background-color : #333;
-	color : white;
-	border : 1px solid silver;
-	font-weight : bold;
+	width: 800px;
+	margin: 30px 0; td { text-align : center;
+	padding: 15px 10px;
+	background-color: #333;
+	color: white;
+	border: 1px solid silver;
+	font-weight: bold;
 	
-	&:hover {
-	background-color : #c0c0c0;
-	color : white;
-    }
-    
-    a {
-    text-decoration: none;
-    display: block;
-    width: 100%;
-    color: white;
-    }
-    
-   }
-   
-  }
+	&:hover { background-color : #c0c0c0;
+	color: white;
+}
+
+a {
+	text-decoration: none;
+	display: block;
+	width: 100%;
+	color: white;
+}
+
+}
+}
+#menu {
+	width: 800px;
+	margin: 30px 0; td { text-align : center;
+	padding: 15px 10px;
+	background-color: #333;
+	color: white;
+	border: 1px solid silver;
+	font-weight: bold;
+	
+	&:hover { background-color : #c0c0c0;
+	color: white;
+}
+}
+}

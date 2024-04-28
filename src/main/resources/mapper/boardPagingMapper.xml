@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.mapper.BoardPagingMapper">
+
+  <!-- 파라미터 전달법 : arg0, param1, HashMap, Vo -->
+  <!-- 파라미터가 Vo 가 아니고 일반변수일때는 arg0, param 사용 -->
+  <!-- arg0 : menu_id, arg1: title, arg2: writer, arg3: offset, arg4: pageSize -->
+  
+  <select id="count" parameterType="com.board.domain.BoardPagingVo" resultType="int"> 
+  
+    SELECT   COUNT(*) AS CNT
+      FROM   BOARD
+      <where>
+      <if test="menu_id != null and menu_id != ''">
+        AND MENU_ID = #{ menu_id }
+      </if>
+      <if test="title != null and title != ''">
+        AND TITLE LIKE '%' || #{title} || '%'
+      </if>
+      <if test="writer != null and writer != ''">
+        AND WRITER LIKE '%' || #{writer} || '%'
+      </if>
+      </where>
+  
+  </select>
+
+  <select id="getBoardPagingList" resultType="com.board.domain.BoardPagingVo">
+  
+    SELECT     BNO
+             , MENU_ID
+             , TITLE
+             , WRITER
+             , TO_CHAR( REGDATE, 'YYYY-MM-DD HH24:MM:SS' ) REGDATE
+             , HIT
+      FROM     BOARD
+      <where>
+      <if test="arg0 != null and arg0 != ''">
+        AND MENU_ID = #{ arg0 }
+      </if>
+      <if test="arg1 != null and arg1 != ''">
+        AND TITLE LIKE '%' || #{ arg1 } || '%'
+      </if>
+      <if test="arg2 != null and arg2 != ''">
+        AND WRITER LIKE '%' || #{ arg2 } || '%'
+      </if>
+      </where>
+      ORDER BY   BNO DESC
+        OFFSET   #{ arg3 } ROWS FETCH NEXT #{ arg4 } ROWS ONLY
+  
+  </select>
+  
+  <insert id="insertBoard">
+  
+    INSERT  INTO  BOARD (
+    	  BNO
+    	, MENU_ID
+        , TITLE
+        , CONTENT
+        , WRITER
+        , REGDATE
+        , HIT
+    )
+    VALUES (
+    	  ( SELECT NVL( MAX( BNO ), 0) + 1 FROM BOARD )
+    	, #{ menu_id }
+    	, #{ title }
+    	, #{ content }
+    	, #{ writer }
+    	, SYSDATE
+    	, 0
+    )
+      
+  </insert>
+  
+  <update id="incHit">
+  
+    UPDATE   BOARD
+       SET   HIT = HIT + 1
+     WHERE   BNO = #{ bno }
+  
+  </update>
+  
+  <select id="getBoard">
+  
+    SELECT     BNO
+             , MENU_ID
+             , TITLE
+             , CONTENT
+             , WRITER
+             , TO_CHAR( REGDATE, 'YYYY-MM-DD HH24:MM:SS' ) REGDATE
+             , HIT
+      FROM     BOARD
+     WHERE     BNO = #{ bno }
+  
+  </select>
+  
+  <delete id="deleteBoard">
+  
+    DELETE   FROM   BOARD
+     WHERE   BNO = #{ bno }
+  
+  </delete>
+
+</mapper>
