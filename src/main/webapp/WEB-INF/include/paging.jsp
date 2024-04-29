@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-  <%@taglib  prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib  prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
   
   <c:set  var="menu_id"            value="${ menu_id           }" /> 
   <c:set  var="startnum"           value="${ searchVo.pagination.startPage         }" /> 
@@ -8,7 +8,7 @@
   <c:set  var="totalpagecount"     value="${ searchVo.pagination.totalPageCount  }" /> 
   <!-- /BoardPaging/List?nowpage=1&menu_id=MENU01 -->
   <div id="paging" style="margin: 20px 0px; border: 0px solid black">
-    <table style="width: 100%; height: 25px; text-align: center" >
+    <table style="width: 800px; height: 25px; text-align: center" >
      <tr>
        <td style="width: 100%; height: 25px; text-align: center" >
      

@@ -62,7 +62,8 @@
 	    </tr>
 	    <tr>
 	      <td colspan="5">
-	        [<a href="/BoardPaging/WriteForm?menu_id=${ menu_id }&nowpage=${ nowpage }">새 글 추가</a>]
+	        [<a href="/BoardPaging/WriteForm?menu_id=${ menu_id }&nowpage=${ nowpage }">새 글 추가</a>]&nbsp;&nbsp;
+	        [<a href="/">Home</a>]
 	      </td>
 	    </tr>
 	    

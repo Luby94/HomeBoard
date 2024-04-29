@@ -62,28 +62,31 @@ h2 {
 	
 	&:hover { background-color : #c0c0c0;
 	color: white;
-}
-
-a {
+	}
+	a {
 	text-decoration: none;
 	display: block;
 	width: 100%;
 	color: white;
+	}
+  }
 }
 
-}
-}
 #menu {
 	width: 800px;
-	margin: 30px 0; td { text-align : center;
-	padding: 15px 10px;
-	background-color: #333;
-	color: white;
-	border: 1px solid silver;
-	font-weight: bold;
+	margin: 30px 0;
 	
-	&:hover { background-color : #c0c0c0;
-	color: white;
-}
-}
+	td {
+		text-align : center;
+		padding: 15px 10px;
+		background-color: #333;
+		color: white;
+		border: 1px solid silver;
+		font-weight: bold;
+	
+	&:hover {
+		background-color : #c0c0c0;
+		color: white;
+	}
+  }
 }
